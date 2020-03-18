@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		ED50BE102422D10400064065 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE0F2422D10400064065 /* AppDelegate.swift */; };
-		ED50BE122422D10400064065 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE112422D10400064065 /* SceneDelegate.swift */; };
-		ED50BE142422D10400064065 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE132422D10400064065 /* ViewController.swift */; };
-		ED50BE172422D10400064065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED50BE152422D10400064065 /* Main.storyboard */; };
+		ED50BE142422D10400064065 /* DoodleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE132422D10400064065 /* DoodleViewController.swift */; };
 		ED50BE192422D10500064065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED50BE182422D10500064065 /* Assets.xcassets */; };
 		ED50BE1C2422D10500064065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED50BE1A2422D10500064065 /* LaunchScreen.storyboard */; };
+		ED50BE242422D98300064065 /* UINavigationBar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE232422D98300064065 /* UINavigationBar+Extensions.swift */; };
+		ED50BE262422DB4A00064065 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE252422DB4A00064065 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		ED50BE0C2422D10400064065 /* Doodle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED50BE0F2422D10400064065 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ED50BE112422D10400064065 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ED50BE132422D10400064065 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		ED50BE162422D10400064065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ED50BE132422D10400064065 /* DoodleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleViewController.swift; sourceTree = "<group>"; };
 		ED50BE182422D10500064065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED50BE1B2422D10500064065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED50BE1D2422D10500064065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ED50BE232422D98300064065 /* UINavigationBar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Extensions.swift"; sourceTree = "<group>"; };
+		ED50BE252422DB4A00064065 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,12 +57,12 @@
 			isa = PBXGroup;
 			children = (
 				ED50BE0F2422D10400064065 /* AppDelegate.swift */,
-				ED50BE112422D10400064065 /* SceneDelegate.swift */,
-				ED50BE132422D10400064065 /* ViewController.swift */,
-				ED50BE152422D10400064065 /* Main.storyboard */,
+				ED50BE252422DB4A00064065 /* SceneDelegate.swift */,
+				ED50BE132422D10400064065 /* DoodleViewController.swift */,
 				ED50BE182422D10500064065 /* Assets.xcassets */,
 				ED50BE1A2422D10500064065 /* LaunchScreen.storyboard */,
 				ED50BE1D2422D10500064065 /* Info.plist */,
+				ED50BE232422D98300064065 /* UINavigationBar+Extensions.swift */,
 			);
 			path = Doodle;
 			sourceTree = "<group>";
@@ -127,7 +127,6 @@
 			files = (
 				ED50BE1C2422D10500064065 /* LaunchScreen.storyboard in Resources */,
 				ED50BE192422D10500064065 /* Assets.xcassets in Resources */,
-				ED50BE172422D10400064065 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +137,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED50BE142422D10400064065 /* ViewController.swift in Sources */,
+				ED50BE142422D10400064065 /* DoodleViewController.swift in Sources */,
 				ED50BE102422D10400064065 /* AppDelegate.swift in Sources */,
-				ED50BE122422D10400064065 /* SceneDelegate.swift in Sources */,
+				ED50BE242422D98300064065 /* UINavigationBar+Extensions.swift in Sources */,
+				ED50BE262422DB4A00064065 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		ED50BE152422D10400064065 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ED50BE162422D10400064065 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		ED50BE1A2422D10500064065 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -285,6 +277,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K78G42H4U2;
 				INFOPLIST_FILE = Doodle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -293,7 +286,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.joeblau.Doodle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -302,6 +295,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K78G42H4U2;
 				INFOPLIST_FILE = Doodle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -310,7 +304,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.joeblau.Doodle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
