@@ -8,6 +8,7 @@ class DoodleViewController: UIViewController {
     lazy var canvasView: PKCanvasView = {
         let v = PKCanvasView()
         v.translatesAutoresizingMaskIntoConstraints = false
+        v.delegate = self
         return v
     }()
 
@@ -33,13 +34,13 @@ class DoodleViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         true
     }
-    
+
     override var prefersHomeIndicatorAutoHidden: Bool {
-      return false
+        false
     }
 
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return UIRectEdge.all
+        UIRectEdge.all
     }
 
     @objc func clearCanvas() {
@@ -56,5 +57,11 @@ class DoodleViewController: UIViewController {
         toolPicker.setVisible(true, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
+    }
+}
+
+extension DoodleViewController: PKCanvasViewDelegate {
+    func canvasViewDrawingDidChange(_: PKCanvasView) {
+        clearButton.isEnabled = true
     }
 }
