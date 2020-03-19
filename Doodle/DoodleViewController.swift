@@ -13,11 +13,12 @@ final class DoodleViewController: UIViewController {
         return v
     }()
 
-    private lazy var shareButton: UIBarButtonItem = {
-        UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"),
-                        style: .plain,
-                        target: self,
-                        action: #selector(exportImageAction))
+    private lazy var menuButton: UIBarButtonItem = {
+        let b = UIButton(type: .system)
+        b.setImage(UIImage(systemName: "line.horizontal.3"), for: .normal)
+        let interaction = UIContextMenuInteraction(delegate: self)
+        b.addInteraction(interaction)
+        return UIBarButtonItem(customView: b)
     }()
     
     private lazy var clearButton: UIBarButtonItem = {
@@ -25,13 +26,6 @@ final class DoodleViewController: UIViewController {
                         style: .plain,
                         target: self,
                         action: #selector(clearCanvasAction))
-    }()
-    
-    private lazy var recordButton: UIBarButtonItem = {
-        UIBarButtonItem(image: UIImage(systemName: "largecircle.fill.circle"),
-                        style: .plain,
-                        target: self,
-                        action: #selector(toggleRecordAction))
     }()
     
     private lazy var undoGesture: UITapGestureRecognizer = {
@@ -44,27 +38,40 @@ final class DoodleViewController: UIViewController {
 
     private var buttonsEnabled: Bool = false {
         didSet {
-            shareButton.isEnabled = self.buttonsEnabled
             clearButton.isEnabled = self.buttonsEnabled
         }
     }
     
-    private var isRecording: Bool = false
+    private let sharedScreenRecorder = RPScreenRecorder.shared()
+
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItems = [shareButton, recordButton]
+        navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItem = clearButton
         buttonsEnabled = false
 
         canvasView.addGestureRecognizer(undoGesture)
-        
+        sharedScreenRecorder.isMicrophoneEnabled = true
+
         guard let navigationView = navigationController?.view else { return }
         navigationView.insertSubview(canvasView, at: 1)
         canvasView.topAnchor.constraint(equalTo: navigationView.topAnchor).isActive = true
         canvasView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor).isActive = true
         canvasView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor).isActive = true
         canvasView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor).isActive = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard let window = view.window,
+            let toolPicker = PKToolPicker.shared(for: window) else { return }
+
+        toolPicker.setVisible(true, forFirstResponder: canvasView)
+        toolPicker.addObserver(canvasView)
+        canvasView.becomeFirstResponder()
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -79,6 +86,8 @@ final class DoodleViewController: UIViewController {
         UIRectEdge.all
     }
 
+    // MARK: - Actions
+    
     @objc func clearCanvasAction() {
         canvasView.drawing = PKDrawing()
         buttonsEnabled = false
@@ -87,49 +96,9 @@ final class DoodleViewController: UIViewController {
     @objc func undoAction() {
         canvasView.undoManager?.undo()
     }
-    
-    @objc func toggleRecordAction(_ barButtonItem: UIBarButtonItem) {
-        switch RPScreenRecorder.shared().isRecording {
-        case true:
-            RPScreenRecorder.shared()
-                .stopRecording { [unowned self] (previewController, error) in
-                guard let previewController = previewController else { return }
-                previewController.modalPresentationStyle = .popover
-                previewController.previewControllerDelegate = self
-                previewController.popoverPresentationController?.barButtonItem = barButtonItem
-                self.present(previewController, animated: true, completion: nil)
-            }
-        case false:
-            RPScreenRecorder.shared().startRecording { (error) in
-                print("started")
-            }
-        }
-    }
-    
-    @objc func exportImageAction(_ barButtonItem: UIBarButtonItem) {
-        let image = canvasView.drawing.image(from: canvasView.drawing.bounds,
-                                             scale: 1.0)
-        let activityViewController = UIActivityViewController(activityItems: [image],
-                                                              applicationActivities: nil)
-        activityViewController.modalPresentationStyle = .popover
-        switch UIDevice.current.userInterfaceIdiom {
-        case .pad, .phone: activityViewController.popoverPresentationController?.barButtonItem = barButtonItem
-        default: break
-        }
-        present(activityViewController, animated: true, completion: nil)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        guard let window = view.window,
-            let toolPicker = PKToolPicker.shared(for: window) else { return }
-
-        toolPicker.setVisible(true, forFirstResponder: canvasView)
-        toolPicker.addObserver(canvasView)
-        canvasView.becomeFirstResponder()
-    }
 }
+
+// MARK: - PKCanvasViewDelegate
 
 extension DoodleViewController: PKCanvasViewDelegate {
     func canvasViewDrawingDidChange(_: PKCanvasView) {
@@ -137,9 +106,71 @@ extension DoodleViewController: PKCanvasViewDelegate {
     }
 }
 
+// MARK: - RPPreviewViewControllerDelegate
+
 extension DoodleViewController: RPPreviewViewControllerDelegate {
-    
     func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
         previewController.dismiss(animated: true, completion: nil)
     }
+}
+
+// MARK: - UIContextMenuInteractionDelegate
+
+extension DoodleViewController: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil,
+                                          previewProvider: nil) { [unowned self] suggestedActions -> UIMenu? in
+            
+            let share = UIAction(title: "Share",
+                                 image: UIImage(systemName: "square.and.arrow.up.fill"),
+                                 handler: self.exportImageAction)
+            switch self.buttonsEnabled {
+            case true: break
+            case false: share.attributes = .disabled
+            }
+            
+            let record = UIAction(title: "Record",
+                                  image: UIImage(systemName: "largecircle.fill.circle"),
+                                  handler: self.toggleRecordAction)
+            switch RPScreenRecorder.shared().isRecording {
+            case true: record.attributes = .destructive
+            case false: break
+            }
+            
+            let recordGroup = UIMenu(title: "", options: .displayInline, children: [record])
+            return UIMenu(title: "", children: [share, recordGroup])
+        }
+    }
+    
+    func exportImageAction(_ action: UIAction) {
+        let image = canvasView.drawing.image(from: canvasView.drawing.bounds,
+                                             scale: 1.0)
+        let activityViewController = UIActivityViewController(activityItems: [image],
+                                                              applicationActivities: nil)
+        activityViewController.modalPresentationStyle = .popover
+        switch UIDevice.current.userInterfaceIdiom {
+        case .pad, .phone: activityViewController.popoverPresentationController?.barButtonItem = menuButton
+        default: break
+        }
+        present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func toggleRecordAction(_ action: UIAction) {
+            switch RPScreenRecorder.shared().isRecording {
+            case true:
+               
+                    sharedScreenRecorder.stopRecording { [unowned self] (previewController, error) in
+                    guard let previewController = previewController else { return }
+                    previewController.modalPresentationStyle = .popover
+                    previewController.previewControllerDelegate = self
+                        previewController.popoverPresentationController?.barButtonItem = self.menuButton
+                    self.present(previewController, animated: true, completion: nil)
+                }
+            case false:
+                sharedScreenRecorder.startRecording { (error) in
+                    print("started")
+                }
+            }
+        }
 }
