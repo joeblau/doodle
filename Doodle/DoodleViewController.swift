@@ -3,6 +3,7 @@
 
 import PencilKit
 import UIKit
+import ReplayKit
 
 final class DoodleViewController: UIViewController {
     private lazy var canvasView: PKCanvasView = {
@@ -26,6 +27,13 @@ final class DoodleViewController: UIViewController {
                         action: #selector(clearCanvasAction))
     }()
     
+    private lazy var recordButton: UIBarButtonItem = {
+        UIBarButtonItem(image: UIImage(systemName: "largecircle.fill.circle"),
+                        style: .plain,
+                        target: self,
+                        action: #selector(toggleRecordAction))
+    }()
+    
     private lazy var undoGesture: UITapGestureRecognizer = {
         let r = UITapGestureRecognizer()
         r.numberOfTouchesRequired = 2
@@ -41,9 +49,11 @@ final class DoodleViewController: UIViewController {
         }
     }
     
+    private var isRecording: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = shareButton
+        navigationItem.leftBarButtonItems = [shareButton, recordButton]
         navigationItem.rightBarButtonItem = clearButton
         buttonsEnabled = false
 
@@ -78,6 +88,24 @@ final class DoodleViewController: UIViewController {
         canvasView.undoManager?.undo()
     }
     
+    @objc func toggleRecordAction(_ barButtonItem: UIBarButtonItem) {
+        switch RPScreenRecorder.shared().isRecording {
+        case true:
+            RPScreenRecorder.shared()
+                .stopRecording { [unowned self] (previewController, error) in
+                guard let previewController = previewController else { return }
+                previewController.modalPresentationStyle = .popover
+                previewController.previewControllerDelegate = self
+                previewController.popoverPresentationController?.barButtonItem = barButtonItem
+                self.present(previewController, animated: true, completion: nil)
+            }
+        case false:
+            RPScreenRecorder.shared().startRecording { (error) in
+                print("started")
+            }
+        }
+    }
+    
     @objc func exportImageAction(_ barButtonItem: UIBarButtonItem) {
         let image = canvasView.drawing.image(from: canvasView.drawing.bounds,
                                              scale: 1.0)
@@ -106,5 +134,12 @@ final class DoodleViewController: UIViewController {
 extension DoodleViewController: PKCanvasViewDelegate {
     func canvasViewDrawingDidChange(_: PKCanvasView) {
         buttonsEnabled = true
+    }
+}
+
+extension DoodleViewController: RPPreviewViewControllerDelegate {
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(animated: true, completion: nil)
     }
 }
