@@ -2,8 +2,8 @@
 // Copyright (c) 2020 Joe Blau
 
 import PencilKit
-import UIKit
 import ReplayKit
+import UIKit
 
 final class DoodleViewController: UIViewController {
     private lazy var canvasView: PKCanvasView = {
@@ -20,14 +20,14 @@ final class DoodleViewController: UIViewController {
         b.addInteraction(interaction)
         return UIBarButtonItem(customView: b)
     }()
-    
+
     private lazy var clearButton: UIBarButtonItem = {
         UIBarButtonItem(image: UIImage(systemName: "trash.fill"),
                         style: .plain,
                         target: self,
                         action: #selector(clearCanvasAction))
     }()
-    
+
     private lazy var undoGesture: UITapGestureRecognizer = {
         let r = UITapGestureRecognizer()
         r.numberOfTouchesRequired = 2
@@ -38,14 +38,14 @@ final class DoodleViewController: UIViewController {
 
     private var buttonsEnabled: Bool = false {
         didSet {
-            clearButton.isEnabled = self.buttonsEnabled
+            clearButton.isEnabled = buttonsEnabled
         }
     }
-    
+
     private let sharedScreenRecorder = RPScreenRecorder.shared()
 
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = menuButton
@@ -62,7 +62,7 @@ final class DoodleViewController: UIViewController {
         canvasView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor).isActive = true
         canvasView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor).isActive = true
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -87,7 +87,7 @@ final class DoodleViewController: UIViewController {
     }
 
     // MARK: - Actions
-    
+
     @objc func clearCanvasAction() {
         canvasView.drawing = PKDrawing()
         buttonsEnabled = false
@@ -117,11 +117,11 @@ extension DoodleViewController: RPPreviewViewControllerDelegate {
 // MARK: - UIContextMenuInteractionDelegate
 
 extension DoodleViewController: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
-                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil,
-                                          previewProvider: nil) { [unowned self] suggestedActions -> UIMenu? in
-            
+    func contextMenuInteraction(_: UIContextMenuInteraction,
+                                configurationForMenuAtLocation _: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: nil,
+                                   previewProvider: nil) { [unowned self] _ -> UIMenu? in
+
             let share = UIAction(title: "Share",
                                  image: UIImage(systemName: "square.and.arrow.up.fill"),
                                  handler: self.exportImageAction)
@@ -129,7 +129,7 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
             case true: break
             case false: share.attributes = .disabled
             }
-            
+
             let record = UIAction(title: "Record",
                                   image: UIImage(systemName: "largecircle.fill.circle"),
                                   handler: self.toggleRecordAction)
@@ -137,13 +137,13 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
             case true: record.attributes = .destructive
             case false: break
             }
-            
+
             let recordGroup = UIMenu(title: "", options: .displayInline, children: [record])
             return UIMenu(title: "", children: [share, recordGroup])
         }
     }
-    
-    func exportImageAction(_ action: UIAction) {
+
+    func exportImageAction(_: UIAction) {
         let image = canvasView.drawing.image(from: canvasView.drawing.bounds,
                                              scale: 1.0)
         let activityViewController = UIActivityViewController(activityItems: [image],
@@ -155,22 +155,22 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
         }
         present(activityViewController, animated: true, completion: nil)
     }
-    
-    func toggleRecordAction(_ action: UIAction) {
-            switch RPScreenRecorder.shared().isRecording {
-            case true:
-               
-                    sharedScreenRecorder.stopRecording { [unowned self] (previewController, error) in
-                    guard let previewController = previewController else { return }
-                    previewController.modalPresentationStyle = .popover
-                    previewController.previewControllerDelegate = self
-                        previewController.popoverPresentationController?.barButtonItem = self.menuButton
-                    self.present(previewController, animated: true, completion: nil)
-                }
-            case false:
-                sharedScreenRecorder.startRecording { (error) in
-                    print("started")
-                }
+
+    func toggleRecordAction(_: UIAction) {
+        switch RPScreenRecorder.shared().isRecording {
+        case true:
+
+            sharedScreenRecorder.stopRecording { [unowned self] previewController, _ in
+                guard let previewController = previewController else { return }
+                previewController.modalPresentationStyle = .popover
+                previewController.previewControllerDelegate = self
+                previewController.popoverPresentationController?.barButtonItem = self.menuButton
+                self.present(previewController, animated: true, completion: nil)
+            }
+        case false:
+            sharedScreenRecorder.startRecording { _ in
+                print("started")
             }
         }
+    }
 }
