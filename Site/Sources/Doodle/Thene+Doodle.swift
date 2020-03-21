@@ -17,8 +17,8 @@ extension Theme where Site: DoodleThemable {
                 .head(for: index,
                       on: context.site,
                       titleSeparator: " | ",
-                      stylesheetPaths: [Path("css/style.css"),
-                                        Path("fonts/sfsymbols-font-stylesheet.css")]),
+                      stylesheetPaths: [Path("/doodle/css/style.css"),
+                                        Path("/doodle/fonts/sfsymbols-font-stylesheet.css")]),
                 .body(
                     .hero(for: context.site),
                     .main(
@@ -66,19 +66,16 @@ private extension Node where Context == HTML.BodyContext {
                 .picture(
                     .source(
                         .attribute(named: "class", value: "brand-image"),
-                        .attribute(named: "src", value: "/img/ipad/hero-dark.png"),
-                        .srcset("/img/ipad/hero-dark@2x.png 2x"),
+                        .attribute(named: "src", value: "/doodle/img/ipad/hero-dark.png"),
+                        .srcset("/doodle/img/ipad/hero-dark@2x.png 2x"),
                         .media("(prefers-color-scheme: dark)")
                     ),
                     .img(
                         .attribute(named: "class", value: "brand-image"),
-                        .src("img/ipad/hero-light.png"),
-                        .attribute(named: "srcset", value: "/img/ipad/hero-light@2x.png 2x")
+                        .src("/doodle/img/ipad/hero-light.png"),
+                        .attribute(named: "srcset", value: "/doodle/img/ipad/hero-light@2x.png 2x")
                     )
-                    
                 )
-                
-                
             )
         )
     }
@@ -150,11 +147,11 @@ private extension Node where Context == HTML.BodyContext {
             .href(site.appStoreURL),
             .picture(
                 .source(
-                    .srcset("/img/us/app-store-dark.svg"),
+                    .srcset("/doodle/img/us/app-store-dark.svg"),
                     .media("(prefers-color-scheme: dark)")
                 ),
                 .img(
-                    .src("/img/us/app-store-light.svg")
+                    .src("/doodle/img/us/app-store-light.svg")
                 )
             )
         )
