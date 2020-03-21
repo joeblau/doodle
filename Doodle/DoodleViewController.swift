@@ -79,7 +79,7 @@ final class DoodleViewController: UIViewController {
         canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         canvasView.addSubview(menuButton)
-        menuButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         menuButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         menuButton.widthAnchor.constraint(equalToConstant: kButtonSize).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: kButtonSize).isActive = true
@@ -91,7 +91,7 @@ final class DoodleViewController: UIViewController {
         helpLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10).isActive = true
         
         canvasView.addSubview(clearButton)
-        clearButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        clearButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         clearButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         clearButton.widthAnchor.constraint(equalToConstant: kButtonSize).isActive = true
         clearButton.heightAnchor.constraint(equalToConstant: kButtonSize).isActive = true

@@ -1,5 +1,5 @@
 // Thene+ScottForstall.swift
-// Copyright (c) 2020 Tapsnap, LLC
+// Copyright (c) 2020 Joe Blau
 
 import Plot
 import Publish
@@ -22,6 +22,7 @@ extension Theme where Site: DoodleThemable {
                 .body(
                     .hero(for: context.site),
                     .main(
+                        .features(for: context.site),
                         .download(for: context.site)
                     )
                 )
@@ -82,13 +83,42 @@ private extension Node where Context == HTML.BodyContext {
         )
     }
 
-    static func play<T: DoodleThemable>(for _: T) -> Node {
-        section(
-            .button(
-                .attribute(named: "onClick", value: "alert('hi')", ignoreIfValueIsEmpty: false),
-                .h1(.class("icon"), .text("􀊖"))
+    // MARK: - Features
+    
+    static func features<T: DoodleThemable>(for site: T) -> Node {
+        guard let features = site.features else {
+            return .empty
+        }
+        return .element(named: "", nodes: [
+            .header(
+                .h2(.text(features.title)),
+                .if(features.subtitle.isEmpty == false,
+                    .h4(.text(features.subtitle))
+                )
+            ),
+            .section(
+                .class("features max-section"),
+                .forEach(features.differentiators) { differentiator in
+                    .div(
+                        .h3(
+                            .if(differentiator.symbol != nil,
+                                .span(.class("icon"), .text(differentiator.symbol!))
+                            ),
+                            .br(),
+                            .element(named: "small", text: differentiator.title)
+                        ),
+                        .p(.text(differentiator.description)),
+                        .if(!differentiator.href.isEmpty,
+                            .a(
+                                .href(differentiator.href),
+                                .text("Learn More "),
+                                .span(.class("icon"), .text("􀄯"))
+                            )
+                        )
+                    )
+                }
             )
-        )
+        ])
     }
 
     // MARK: - Download
@@ -112,34 +142,21 @@ private extension Node where Context == HTML.BodyContext {
             )
         ])
     }
-    
-    // MARK: - Footer
-
-    static func footer<T: DoodleThemable>(for site: T) -> Node {
-        .footer(
-            .appStoreLink(for: site),
-            .br(),
-            .br(),
-            .a(.href("/"), .text("Home")),
-            .text(" • "),
-            .a(.href("/blog"), .text("Blog")),
-            .text(" • "),
-            .a(.href("https://github.com/tapsnapapp"), .text("GitHub")),
-            .text(" • "),
-            .a(.href("mailto:support@tapsnap.app"), .text("Contact")),
-            .text(" • "),
-            .a(.href("/privacy"), .text("Privacy")),
-            .br(),
-            .element(named: "small", text: site.copyright)
-        )
-    }
 
     // MARK: - Utility functions
 
     static func appStoreLink<T: DoodleThemable>(for site: T) -> Node {
         .a(
             .href(site.appStoreURL),
-            .img(.src("/img/us/app-store-light.svg"))
+            .picture(
+                .source(
+                    .srcset("/img/us/app-store-dark.svg"),
+                    .media("(prefers-color-scheme: dark)")
+                ),
+                .img(
+                    .src("/img/us/app-store-light.svg")
+                )
+            )
         )
     }
 }

@@ -51,8 +51,14 @@ a:hover {
   padding: 30px;
   text-align: center;
   font-size: 1.4em;
-  height: 100vh;
   overflow: hidden;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2em;
+  padding: 2em;
 }
 
 .brand-image {
@@ -113,6 +119,10 @@ p {
   padding: 2em;
 }
 
+.downloads > div {
+    text-align: center;
+}
+
 @media (prefers-color-scheme:dark) {
     body {
         background-color: black;
@@ -146,4 +156,12 @@ p {
         color: black;
         border: none;
     }
+}
+
+@media (min-width:768px) {
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2em;
+}
 }
