@@ -66,7 +66,7 @@ struct Site: DoodleThemable {
     var language: Language { .english }
     var imagePath: Path? { nil }
     var copyright: String = "2020"
-    var appStoreURL: String = "htt:"
+    var appStoreURL: String = "https://itunes.apple.com/app/id1503601939"
     var hero: HeroSectionable? = Hero()
     var features: FeaturesSectionable? = Features()
     var download: DownloadSectionable? = Download()
