@@ -1,0 +1,167 @@
+body {
+    font-size: 17px;
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -.022em;
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    margin: 0px;
+}
+
+header {
+    grid-column: span 2;
+    padding: 30px;
+    text-align: center;
+    font-size: 1.4em;
+}
+
+footer {
+    grid-column: span 2;
+    padding: 30px;
+    text-align: center;
+    font-size: 1.4em;
+}
+
+small {
+    font-size: 0.5em;
+    opacity: 0.7;
+}
+
+a {
+    font-size: 19px;
+    line-height: 1.42115;
+    font-weight: 400;
+    letter-spacing: .012em;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.max-section {
+  max-width: 980px;
+  margin: auto;
+}
+
+.hero {
+  grid-column: span 2;
+  padding: 30px;
+  text-align: center;
+  font-size: 1.4em;
+  overflow: hidden;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2em;
+  padding: 2em;
+}
+
+.brand-image {
+  object-fit: scale-down;
+  width: 80%;
+  max-height: 80%;
+}
+
+.icon {
+    font-family: ".SF Symbols Fallback";
+    opacity: 0.7;
+}
+
+h1 {
+    font-size: 80px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    
+}
+
+h2 {
+    font-size: 56px;
+    line-height: 1.07143;
+    font-weight: 700;
+    letter-spacing: -.005em;
+}
+
+h3 {
+    font-size: 48px;
+    line-height: 1.08365;
+    font-weight: 600;
+    letter-spacing: -.003em;
+}
+
+h4 {
+    font-size: 28px;
+    line-height: 1.19048;
+    font-weight: 500;
+    letter-spacing: .011em;
+}
+
+mark {
+    padding: 0.4em;
+    border-radius: 16px;
+    white-space: nowrap;
+    line-height: 2.3em;
+}
+
+p {
+    font-size: 19px;
+    line-height: 1.42115;
+    font-weight: 400;
+    letter-spacing: .012em;
+}
+
+.downloads {
+  padding: 2em;
+}
+
+.downloads > div {
+    text-align: center;
+}
+
+@media (prefers-color-scheme:dark) {
+    body {
+        background-color: black;
+        color: white;
+    }
+    
+    a {
+        color: #6bf;
+    }
+    
+    button {
+        background-color: transparent;
+        color: white;
+        border: none;
+    }
+}
+
+
+@media (prefers-color-scheme:light) {
+    body {
+        background-color: white;
+        color: black;
+    }
+    
+    a {
+        color: #0070c9;
+    }
+    
+    button {
+        background-color: transparent;
+        color: black;
+        border: none;
+    }
+}
+
+@media (min-width:768px) {
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2em;
+}
+}
