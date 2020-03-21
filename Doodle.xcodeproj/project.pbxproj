@@ -11,7 +11,6 @@
 		ED50BE142422D10400064065 /* DoodleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE132422D10400064065 /* DoodleViewController.swift */; };
 		ED50BE192422D10500064065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED50BE182422D10500064065 /* Assets.xcassets */; };
 		ED50BE1C2422D10500064065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED50BE1A2422D10500064065 /* LaunchScreen.storyboard */; };
-		ED50BE242422D98300064065 /* UINavigationBar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE232422D98300064065 /* UINavigationBar+Extensions.swift */; };
 		ED50BE262422DB4A00064065 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED50BE252422DB4A00064065 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -22,7 +21,6 @@
 		ED50BE182422D10500064065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED50BE1B2422D10500064065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED50BE1D2422D10500064065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ED50BE232422D98300064065 /* UINavigationBar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Extensions.swift"; sourceTree = "<group>"; };
 		ED50BE252422DB4A00064065 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,7 +60,6 @@
 				ED50BE182422D10500064065 /* Assets.xcassets */,
 				ED50BE1A2422D10500064065 /* LaunchScreen.storyboard */,
 				ED50BE1D2422D10500064065 /* Info.plist */,
-				ED50BE232422D98300064065 /* UINavigationBar+Extensions.swift */,
 			);
 			path = Doodle;
 			sourceTree = "<group>";
@@ -139,7 +136,6 @@
 			files = (
 				ED50BE142422D10400064065 /* DoodleViewController.swift in Sources */,
 				ED50BE102422D10400064065 /* AppDelegate.swift in Sources */,
-				ED50BE242422D98300064065 /* UINavigationBar+Extensions.swift in Sources */,
 				ED50BE262422DB4A00064065 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,7 +279,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.joeblau.Doodle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joeblau.Doodle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -301,7 +297,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.joeblau.Doodle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joeblau.Doodle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -10,12 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
 
-            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-            UINavigationBar.appearance().shadowImage = UIImage()
-            UINavigationBar.appearance().backgroundColor = .clear
-            UINavigationBar.appearance().isTranslucent = true
-
-            window.rootViewController = UINavigationController(rootViewController: DoodleViewController())
+            window.rootViewController = DoodleViewController()
             self.window = window
             window.makeKeyAndVisible()
         }
