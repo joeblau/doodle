@@ -1,20 +1,15 @@
-//
-//  ReviewManager.swift
-//  Doodle
-//
-//  Created by Joe Blau on 4/16/20.
-//  Copyright © 2020 Joe Blau. All rights reserved.
-//
+// ReviewManager.swift
+// Copyright (c) 2020 Joe Blau
 
 import Foundation
 import StoreKit
 
 final class ReviewManager {
     static let kOpenCount = "application_open_count"
-    
+
     func requestReview() {
         let openCount = UserDefaults.standard.integer(forKey: ReviewManager.kOpenCount)
-        
+
         switch openCount {
         case 3, 10, 50:
             SKStoreReviewController.requestReview()
@@ -22,7 +17,7 @@ final class ReviewManager {
             SKStoreReviewController.requestReview()
         default: break
         }
-        
-        UserDefaults.standard.set(openCount+1, forKey: ReviewManager.kOpenCount)
+
+        UserDefaults.standard.set(openCount + 1, forKey: ReviewManager.kOpenCount)
     }
 }

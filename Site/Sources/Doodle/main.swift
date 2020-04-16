@@ -1,7 +1,10 @@
-import Foundation
-import Publish
-import Plot
+// main.swift
+// Copyright (c) 2020 Joe Blau
+
 import BlauTheme
+import Foundation
+import Plot
+import Publish
 
 public struct BulletPoint: BulletPointable {
     public var symbol: String?
@@ -37,9 +40,9 @@ struct AppStoreLink: ImageLinkable {
 struct Header: HeaderSectionable {
     var callToActionImageLink: ImageLinkable? = AppStoreLink()
     var image: AppearanceURLable? = HeaderURL()
-    var backgroundImage: URL? = nil
+    var backgroundImage: URL?
     var title: String? = "Doodle"
-    var subtitle: String? = nil
+    var subtitle: String?
 }
 
 // MARK: - Call To Action
@@ -54,7 +57,7 @@ struct CallToAction: CallToActionSectionable {
 
 struct Features: FeatureSectionable {
     var title: String? = "Features"
-    var subtitle: String? = nil
+    var subtitle: String?
     var list: [BulletPointable] = [
         BulletPoint(symbol: "􀖔",
                     title: "Finger",
@@ -82,7 +85,7 @@ struct Features: FeatureSectionable {
                     description: "Save individual drawing for the future"),
         BulletPoint(symbol: "􀙧",
                     title: "Privacy",
-                    description: "No analytics, no tracking, no app storage")
+                    description: "No analytics, no tracking, no app storage"),
     ]
 }
 
@@ -101,13 +104,12 @@ struct Footer: FooterSectionable {
 // MARK: - Site
 
 struct Site: BlauThemable {
-
     enum SectionID: String, WebsiteSectionID {
         case posts
     }
-    
+
     struct ItemMetadata: WebsiteItemMetadata {}
-    
+
     var url = URL(string: "https://joeblau.com/doodle")!
     var imagePath: Path?
     var name = "Doodle"

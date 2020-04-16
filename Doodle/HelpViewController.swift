@@ -1,10 +1,5 @@
-//
-//  HelpViewController.swift
-//  Doodle
-//
-//  Created by Joe Blau on 4/16/20.
-//  Copyright © 2020 Joe Blau. All rights reserved.
-//
+// HelpViewController.swift
+// Copyright (c) 2020 Joe Blau
 
 import UIKit
 
@@ -20,7 +15,6 @@ struct Section {
 }
 
 final class HelpViewController: UITableViewController {
-    
     let helpSections: [Section] = [
         Section(header: "Interface",
                 footer: nil,
@@ -37,8 +31,7 @@ final class HelpViewController: UITableViewController {
                          text: NSLocalizedString("help_menu_share", comment: "share")),
                     Item(image: UIImage(systemName: "largecircle.fill.circle"),
                          text: NSLocalizedString("help_menu_record", comment: "record")),
-                ]
-            ),
+                ]),
         Section(header: "Gestures",
                 footer: nil,
                 items: [
@@ -48,8 +41,7 @@ final class HelpViewController: UITableViewController {
                          text: NSLocalizedString("help_minimize", comment: "minimize")),
                     Item(image: UIImage(systemName: "2.circle"),
                          text: NSLocalizedString("help_undo", comment: "undo")),
-                ]
-            ),
+                ]),
         Section(header: "Canvas",
                 footer: nil,
                 items: [
@@ -57,32 +49,31 @@ final class HelpViewController: UITableViewController {
                          text: NSLocalizedString("help_hand", comment: "hand")),
                     Item(image: UIImage(systemName: "pencil.and.outline"),
                          text: NSLocalizedString("help_hardware", comment: "stylus")),
-                ]
-            )
+                ]),
     ]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Help"
-    
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
                                                             target: self,
                                                             action: #selector(closeAction))
-        
+
         tableView = UITableView(frame: view.frame, style: .insetGrouped)
         tableView.allowsSelection = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
+
+    override func numberOfSections(in _: UITableView) -> Int {
         helpSections.count
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         helpSections[section].items.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let item = helpSections[indexPath.section].items[indexPath.item]
@@ -91,14 +82,14 @@ final class HelpViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         helpSections[section].header
     }
-    
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+
+    override func tableView(_: UITableView, titleForFooterInSection section: Int) -> String? {
         helpSections[section].footer
     }
-    
+
     @objc func closeAction() {
         dismiss(animated: true, completion: nil)
     }
