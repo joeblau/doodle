@@ -62,6 +62,7 @@ final class DoodleViewController: UIViewController {
     }
     
     private let sharedScreenRecorder = RPScreenRecorder.shared()
+    private let reviewManager = ReviewManager()
     
     // MARK: - Lifecycle
     
@@ -100,11 +101,12 @@ final class DoodleViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        switch UserDefaults.standard.integer(forKey: RatingManager.kOpenCount) {
+        switch UserDefaults.standard.integer(forKey: ReviewManager.kOpenCount) {
         case 0: showHelpAction()
         default: break
         }
         
+        reviewManager.requestReview()
         guard let window = view.window,
             let toolPicker = PKToolPicker.shared(for: window) else { return }
         

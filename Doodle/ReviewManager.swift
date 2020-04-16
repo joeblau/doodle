@@ -1,5 +1,5 @@
 //
-//  RatingManager.swift
+//  ReviewManager.swift
 //  Doodle
 //
 //  Created by Joe Blau on 4/16/20.
@@ -16,9 +16,9 @@ final class ReviewManager {
         let openCount = UserDefaults.standard.integer(forKey: ReviewManager.kOpenCount)
         
         switch openCount {
-        case 3, 10, 30:
+        case 3, 10, 50:
             SKStoreReviewController.requestReview()
-        case _ where openCount % 100 == 0:
+        case _ where openCount > 3 && openCount % 100 == 0:
             SKStoreReviewController.requestReview()
         default: break
         }
