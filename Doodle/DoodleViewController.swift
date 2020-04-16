@@ -31,9 +31,9 @@ final class DoodleViewController: UIViewController {
         l.alpha = 0.0
         let s = NSMutableAttributedString()
         let a = NSTextAttachment()
-        a.image = UIImage(systemName: "arrow.left")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        a.image = UIImage(systemName: "arrow.left")?.withTintColor(.label, renderingMode: .alwaysOriginal)
         s.append(NSAttributedString(attachment: a))
-        s.append(NSAttributedString(string: " Long press"))
+        s.append(NSAttributedString(string: NSLocalizedString("hint_long_press", comment: "long press")))
         l.attributedText = s
         
         return l
@@ -100,6 +100,11 @@ final class DoodleViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        switch UserDefaults.standard.integer(forKey: RatingManager.kOpenCount) {
+        case 0: showHelpAction()
+        default: break
+        }
+        
         guard let window = view.window,
             let toolPicker = PKToolPicker.shared(for: window) else { return }
         
@@ -143,6 +148,10 @@ final class DoodleViewController: UIViewController {
     @objc func undoAction() {
         canvasView.undoManager?.undo()
     }
+    
+    @objc func showHelpAction() {
+        present(UINavigationController(rootViewController: HelpViewController()), animated: true, completion: nil)
+    }
 }
 
 // MARK: - PKCanvasViewDelegate
@@ -169,7 +178,7 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
         UIContextMenuConfiguration(identifier: nil,
                                    previewProvider: nil) { [unowned self] _ -> UIMenu? in
                                     
-                                    let share = UIAction(title: "Share",
+                                    let share = UIAction(title: NSLocalizedString("menu_share", comment: "Share"),
                                                          image: UIImage(systemName: "square.and.arrow.up.fill"),
                                                          handler: self.exportImageAction)
                                     switch self.buttonsEnabled {
@@ -179,8 +188,8 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
                                     
                                     let title: String
                                     switch RPScreenRecorder.shared().isRecording {
-                                    case true: title = "Stop Record"
-                                    case false: title = "Start Recording"
+                                    case true: title = NSLocalizedString("menu_stop_recording", comment: "Stop Record")
+                                    case false: title = NSLocalizedString("menu_start_recording", comment: "Start Record")
                                     }
                                     let record = UIAction(title: title,
                                                           image: UIImage(systemName: "largecircle.fill.circle"),
@@ -191,21 +200,30 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
                                     }
                                     
                                     let recordGroup = UIMenu(title: "", options: .displayInline, children: [record])
-                                    return UIMenu(title: "", children: [share, recordGroup])
+                                    
+                                    let help = UIAction(title: NSLocalizedString("menu_help", comment: "Help"),
+                                                         image: UIImage(systemName: "questionmark"),
+                                                         handler: self.showHelpAction)
+                                    let helpGroup = UIMenu(title: "", options: .displayInline, children: [help])
+                        
+                                    return UIMenu(title: "", children: [share, recordGroup, helpGroup])
         }
     }
     
     func exportImageAction(_: UIAction) {
-        let image = canvasView.drawing.image(from: canvasView.drawing.bounds,
-                                             scale: 1.0)
-        let activityViewController = UIActivityViewController(activityItems: [image],
-                                                              applicationActivities: nil)
-        activityViewController.modalPresentationStyle = .popover
-        switch UIDevice.current.userInterfaceIdiom {
-        case .pad, .phone: activityViewController.popoverPresentationController?.sourceView = menuButton
-        default: break
+        UITraitCollection(userInterfaceStyle: .light).performAsCurrent {
+            let image = canvasView.drawing.image(from: canvasView.drawing.bounds,
+                                                 scale: 1.0)
+            
+            let activityViewController = UIActivityViewController(activityItems: [image],
+                                                                  applicationActivities: nil)
+            activityViewController.modalPresentationStyle = .popover
+            switch UIDevice.current.userInterfaceIdiom {
+            case .pad, .phone: activityViewController.popoverPresentationController?.sourceView = menuButton
+            default: break
+            }
+            present(activityViewController, animated: true, completion: nil)
         }
-        present(activityViewController, animated: true, completion: nil)
     }
     
     func toggleRecordAction(_: UIAction) {
@@ -224,5 +242,9 @@ extension DoodleViewController: UIContextMenuInteractionDelegate {
                 print("started")
             }
         }
+    }
+    
+    func showHelpAction(_: UIAction) {
+        self.showHelpAction()
     }
 }

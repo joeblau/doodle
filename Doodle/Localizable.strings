@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Doodle
+
+  Created by Joe Blau on 4/16/20.
+  Copyright © 2020 Joe Blau. All rights reserved.
+*/
+
+
+"hint_long_press" = " Long Press";
+
+// Interface
+"help_menu" = "Long press the three bars button in the top left to show the menu";
+"help_clear" = "Press the trash can button to clear your canvas";
+"help_tool" = "Select tools and colors from tool picker";
+"help_tool_picker" = "Drag tool picker to corners to move it out of the way";
+"help_menu_share" = "Share your doodle via the menu";
+"help_menu_record" = "Record your doodle with audio via the menu";
+
+"menu_share" = "Share";
+"menu_start_recording" = "Start Recording";
+"menu_stop_recording" = "Stop Recording";
+"menu_help" = "Help";
+
+// Gestures
+"help_minimize" = "Four finger pinch to minimize";
+"help_close" = "Five finger pinch to close";
+"help_undo" = "Double tap with two fingers to undo";
+
+// Hardware
+"help_hand" = "Draw on the canvas with your finger";
+"help_hardware" = "Draw on the canvas with and Apple Pencil or Logitech Crayon";
