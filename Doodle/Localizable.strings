@@ -10,6 +10,7 @@
 "hint_long_press" = " Long Press";
 
 // Interface
+"help_title" = "Help";
 "help_menu" = "Long press the three bars button in the top left to show the menu";
 "help_clear" = "Press the trash can button to clear your canvas";
 "help_tool" = "Select tools and colors from tool picker";

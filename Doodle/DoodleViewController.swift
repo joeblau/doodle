@@ -100,19 +100,19 @@ final class DoodleViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        switch UserDefaults.standard.integer(forKey: ReviewManager.kOpenCount) {
-        case 0: showHelpAction()
-        default: break
-        }
-
-        reviewManager.requestReview()
         guard let window = view.window,
             let toolPicker = PKToolPicker.shared(for: window) else { return }
 
         toolPicker.setVisible(true, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
+        
+        switch UserDefaults.standard.integer(forKey: ReviewManager.kOpenCount) {
+        case 0: showHelpAction()
+        default: break
+        }
+        
+        reviewManager.requestReview()
     }
 
     override var prefersStatusBarHidden: Bool {
