@@ -154,6 +154,14 @@ final class DoodleViewController: UIViewController {
     @objc func showHelpAction() {
         present(UINavigationController(rootViewController: HelpViewController()), animated: true, completion: nil)
     }
+
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        guard motion == .motionShake else {
+            return
+        }
+
+        self.clearCanvasAction(clearButton)
+    }
 }
 
 // MARK: - PKCanvasViewDelegate
