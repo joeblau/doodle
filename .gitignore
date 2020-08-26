@@ -95,7 +95,6 @@ iOSInjectionProject/
 /build
 /.build
 /.swiftpm
-/*.xcodeproj
 .publish
 Site/Output/
 ## Xcode Patch
