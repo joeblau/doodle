@@ -55,6 +55,20 @@ final class DoodleViewController: UIViewController {
         return r
     }()
 
+    private lazy var toolPicker: PKToolPicker = {
+        let p: PKToolPicker
+        if #available(iOS 14.0, *) {
+            p = PKToolPicker()
+        } else {
+            guard let window = view.window,
+                let windowToolPicker = PKToolPicker.shared(for: window) else {
+                fatalError("can not create tool picker")
+            }
+            p = windowToolPicker
+        }
+        return p
+    }()
+    
     private var buttonsEnabled: Bool = false {
         didSet {
             clearButton.isEnabled = buttonsEnabled
@@ -97,21 +111,18 @@ final class DoodleViewController: UIViewController {
         clearButton.widthAnchor.constraint(equalToConstant: kButtonSize).isActive = true
         clearButton.heightAnchor.constraint(equalToConstant: kButtonSize).isActive = true
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard let window = view.window,
-            let toolPicker = PKToolPicker.shared(for: window) else { return }
 
         toolPicker.setVisible(true, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
-        
+
         switch UserDefaults.standard.integer(forKey: ReviewManager.kOpenCount) {
         case 0: showHelpAction()
         default: break
         }
-        
         reviewManager.requestReview()
     }
 
