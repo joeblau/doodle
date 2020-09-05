@@ -12,6 +12,9 @@ final class DoodleViewController: UIViewController {
         let v = PKCanvasView()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.delegate = self
+        if #available(iOS 14.0, *) {
+            v.drawingPolicy = .anyInput
+        }
         return v
     }()
 
