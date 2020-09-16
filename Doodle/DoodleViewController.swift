@@ -173,8 +173,18 @@ final class DoodleViewController: UIViewController {
         guard motion == .motionShake else {
             return
         }
-
-        self.clearCanvasAction(clearButton)
+        
+        let alert = UIAlertController(title: "Clear Canvas?",
+                                      message: "Are you sure you want to clear the canvas?",
+                                      preferredStyle: .alert)
+        let clearAction = UIAlertAction(title: "Clear", style: .destructive) { _ in
+            self.clearCanvasAction(self.clearButton)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
+        alert.addAction(clearAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
